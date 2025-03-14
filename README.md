@@ -122,5 +122,5 @@ EasyOneWeb LLC 2020 - 2025. All rights reserved. Code author: Kirill Makeev. See
 - [X] Refactor to packages
 - [X] Move db logic from visitor pkg to database pkg
 - [X] Refactor models of visitor and visitorDB
-- [ ] Write tests
+- [X] Write tests
 - [ ] database.VisitorUpdate UPDATE ONLY WHAT IS NEEDED TO BE UPDATED!
