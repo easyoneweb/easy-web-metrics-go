@@ -92,7 +92,7 @@ If not data was provided, new visitor data and ID will be generated. Server is l
 
 ## Additional information
 
-Easy-Web-Metrics-Go is written in Go language (Go 1.24.1), uses: mongodb as DB, mongo-db-driver, uuid, chi, godotenv. Please, before proceed be sure to check official documentation on corresponding technology.
+Easy-Web-Metrics-Go is written in Go language (Go 1.24.1), uses: mongodb as DB, mongo-db-driver, uuid, chi, godotenv. Please, before proceed be sure to check official documentation on corresponding technology. Tests are uses test db name: easywebmetricstest.
 
 ## Known Issues
 
@@ -124,6 +124,6 @@ EasyOneWeb LLC 2020 - 2025. All rights reserved. Code author: Kirill Makeev. See
 - [X] Refactor models of visitor and visitorDB
 - [X] Write tests
 - [X] /api/v1/metrics/visitor instead of /api/v1/visitor
-- [ ] User UserData.UserID instead of UserData.BitrixID
+- [X] User UserData.UserID instead of UserData.BitrixID
 - [ ] database.VisitorUpdate UPDATE ONLY WHAT IS NEEDED TO BE UPDATED!
 - [ ] user context in database methods instead of Context.TODO

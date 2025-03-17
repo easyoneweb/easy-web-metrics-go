@@ -17,7 +17,7 @@ type utm struct {
 }
 
 type user struct {
-	BitrixID   string `json:"bitrixID"`
+	UserID   string `json:"userID"`
 	Login      string `json:"login"`
 	Email      string `json:"email"`
 	FirstName  string `json:"firstName"`
@@ -74,8 +74,8 @@ func ProcessVisitor(r *http.Request) (processedVisitor, error) {
 		filter = bson.D{{"visitor", v.Visitor}}
 	}
 
-	if validateVisitorData(v, "bitrixID") {
-		filter = bson.D{{"userData.bitrixID", v.UserData.BitrixID}}
+	if validateVisitorData(v, "userID") {
+		filter = bson.D{{"userData.userID", v.UserData.UserID}}
 	}
 
 	if validateVisitorData(v, "userAgent") {
@@ -129,13 +129,13 @@ func validateVisitorData(v visitor, visitorDataType string) bool {
 			return true
 		}
 	}
-	if visitorDataType == "bitrixID" {
-		if v.Visitor == "" && v.UserData.BitrixID != "" {
+	if visitorDataType == "userID" {
+		if v.Visitor == "" && v.UserData.UserID != "" {
 			return true
 		}
 	}
 	if visitorDataType == "userAgent" {
-		if v.Visitor == "" && v.UserData.BitrixID == "" && v.UserAgent != "" && v.IP != "" {
+		if v.Visitor == "" && v.UserData.UserID == "" && v.UserAgent != "" && v.IP != "" {
 			return true
 		}
 	}

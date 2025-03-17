@@ -41,7 +41,7 @@ func createBodyReader() *strings.Reader {
 				"utmCampaign": "test"
 			},
 			"userData": {
-					"bitrixID": "8"
+					"userID": "8"
 			}
 		}
 	`)

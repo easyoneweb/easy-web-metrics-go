@@ -20,7 +20,7 @@ var testUrl = UrlDB{
 }
 
 var testUser = UserDB{
-	BitrixID:   "",
+	UserID:   "",
 	Login:      "",
 	Email:      "",
 	FirstName:  "",
@@ -62,7 +62,7 @@ func TestVisitor(t *testing.T) {
 		}
 	})
 	t.Run("VisitorUpdate", func(t *testing.T) {
-		testVisitor.UserData.BitrixID = "8"
+		testVisitor.UserData.UserID = "8"
 		filter := bson.D{{"visitor", visitor.Visitor}}
 
 		_, err := VisitorUpdate(testVisitor, filter)

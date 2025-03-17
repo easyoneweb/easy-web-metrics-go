@@ -13,7 +13,7 @@ type UrlDB struct {
 }
 
 type UserDB struct {
-	BitrixID   string `bson:"bitrixID"`
+	UserID   string `bson:"userID"`
 	Login      string `bson:"login"`
 	Email      string `bson:"email"`
 	FirstName  string `bson:"firstName"`
