@@ -59,6 +59,8 @@ Body example:
         "utmCampaign": ""
     },
     "referrer": "",
+    "ip": "",
+    "userAgent": "",
     "userData": {
         "userID": "",
         "login": "",
