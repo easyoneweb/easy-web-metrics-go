@@ -59,7 +59,10 @@ func main() {
 	router.Route("/api/v1", func(r chi.Router) {
 		r.Use(apiCfg.middlewareCheckApiKey)
 		r.Get("/ping", handlerPing)
-		r.Post("/visitor", handlerProcessVisitor)
+
+		r.Route("/metrics", func(r chi.Router) {
+			r.Post("/visitor", handlerProcessVisitor)
+		})
 	})
 
 	srv := &http.Server{

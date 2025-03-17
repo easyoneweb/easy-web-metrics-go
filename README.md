@@ -60,7 +60,7 @@ Body example:
     },
     "referrer": "",
     "userData": {
-        "bitrixID": "",
+        "userID": "",
         "login": "",
         "email": "",
         "firstName": "",
@@ -123,4 +123,7 @@ EasyOneWeb LLC 2020 - 2025. All rights reserved. Code author: Kirill Makeev. See
 - [X] Move db logic from visitor pkg to database pkg
 - [X] Refactor models of visitor and visitorDB
 - [X] Write tests
+- [X] /api/v1/metrics/visitor instead of /api/v1/visitor
+- [ ] User UserData.UserID instead of UserData.BitrixID
 - [ ] database.VisitorUpdate UPDATE ONLY WHAT IS NEEDED TO BE UPDATED!
+- [ ] user context in database methods instead of Context.TODO
