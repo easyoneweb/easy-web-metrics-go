@@ -100,6 +100,10 @@ There are currently no known issues.
 
 ## Release Notes
 
+### 0.2.1
+
+Fixed issue when bson.D filter for mongodb query is nil.
+
 ### 0.2.0
 
 REST API /api/v1/visitor changed to /api/v1/metrics/visitor. User data now accepts userID instead of bitrixID. User data update only updates user info if there was no userID previously saved.
