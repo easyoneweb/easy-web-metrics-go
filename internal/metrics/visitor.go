@@ -68,7 +68,6 @@ func ProcessVisitor(r *http.Request) (processedVisitor, error) {
 	}
 
 	v.IP = readIpAddress(r)
-	v.UserAgent = r.Header.Get("user-agent")
 
 	if validateVisitorData(v, "visitor") {
 		filter = bson.D{{"visitor", v.Visitor}}
