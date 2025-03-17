@@ -50,6 +50,10 @@ func VisitorCreate(v VisitorDB) (VisitorDB, error) {
 }
 
 func VisitorUpdate(v VisitorDB, filter bson.D) (VisitorDB, error) {
+	if filter == nil {
+		return VisitorDB{}, errors.New("filter is empty")
+	}
+
 	result := VisitorDB{}
 
 	err := collectionVisitors.FindOne(context.TODO(), filter).Decode(&result)
