@@ -67,8 +67,6 @@ func ProcessVisitor(r *http.Request) (processedVisitor, error) {
 		return pVisitor, errors.New("check sent data")
 	}
 
-	v.IP = readIpAddress(r)
-
 	if validateVisitorData(v, "visitor") {
 		filter = bson.D{{"visitor", v.Visitor}}
 	}
@@ -109,17 +107,6 @@ func ProcessVisitor(r *http.Request) (processedVisitor, error) {
 	pVisitor.Visitor = createdVisitor.Visitor
 	pVisitor.Status = vStatus.New
 	return pVisitor, nil
-}
-
-func readIpAddress(r *http.Request) string {
-	ip := r.Header.Get("x-real-ip")
-	if ip == "" {
-		ip = r.Header.Get("x-forwarded-for")
-	}
-	if ip == "" {
-		ip = r.RemoteAddr
-	}
-	return ip
 }
 
 func validateVisitorData(v visitor, visitorDataType string) bool {
