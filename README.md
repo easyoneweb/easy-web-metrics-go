@@ -100,6 +100,10 @@ There are currently no known issues.
 
 ## Release Notes
 
+### 0.2.0
+
+REST API /api/v1/visitor changed to /api/v1/metrics/visitor. User data now accepts userID instead of bitrixID. User data update only updates user info if there was no userID previously saved.
+
 ### 0.1.0
 
 Initial working version.
@@ -116,14 +120,3 @@ Initial working version.
 EasyOneWeb LLC 2020 - 2025. All rights reserved. Code author: Kirill Makeev. See LICENSE.md for licensing and usage information.
 
 **Enjoy!**
-
-# TODO Roadmap:
-
-- [X] Refactor to packages
-- [X] Move db logic from visitor pkg to database pkg
-- [X] Refactor models of visitor and visitorDB
-- [X] Write tests
-- [X] /api/v1/metrics/visitor instead of /api/v1/visitor
-- [X] User UserData.UserID instead of UserData.BitrixID
-- [X] database.VisitorUpdate UPDATE ONLY WHAT IS NEEDED TO BE UPDATED!
-- [ ] use context in database methods instead of Context.TODO
