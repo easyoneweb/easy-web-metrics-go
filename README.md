@@ -125,5 +125,5 @@ EasyOneWeb LLC 2020 - 2025. All rights reserved. Code author: Kirill Makeev. See
 - [X] Write tests
 - [X] /api/v1/metrics/visitor instead of /api/v1/visitor
 - [X] User UserData.UserID instead of UserData.BitrixID
-- [ ] database.VisitorUpdate UPDATE ONLY WHAT IS NEEDED TO BE UPDATED!
-- [ ] user context in database methods instead of Context.TODO
+- [X] database.VisitorUpdate UPDATE ONLY WHAT IS NEEDED TO BE UPDATED!
+- [ ] use context in database methods instead of Context.TODO

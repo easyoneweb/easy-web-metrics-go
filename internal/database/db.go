@@ -60,13 +60,12 @@ func VisitorUpdate(v VisitorDB, filter bson.D) (VisitorDB, error) {
 		log.Fatal(err)
 	}
 
-	// UPDATE ONLY WHAT IS NEEDED TO BE UPDATED!
 	updateVisitorData := VisitorDB{
-		Visitor:   result.Visitor,
-		Urls:      updateVisitorUrls(result.Urls, v.Urls[0]),
-		IP:        v.IP,
+		Visitor: result.Visitor,
+		Urls: updateVisitorUrls(result.Urls, v.Urls[0]),
+		IP: v.IP,
 		UserAgent: v.UserAgent,
-		UserData:  v.UserData,
+		UserData: updateVisitorUserData(result.UserData, v.UserData),
 	}
 
 	update := bson.D{{"$set", updateVisitorData}}
@@ -93,4 +92,12 @@ func updateVisitorUrls(urls []UrlDB, newUrl UrlDB) []UrlDB {
 
 	updatedUrls = append(updatedUrls, newUrl)
 	return updatedUrls
+}
+
+func updateVisitorUserData(userDB UserDB, userToUpdate UserDB) UserDB {
+	if userDB.UserID == "" && userToUpdate.UserID != "" {
+		userDB = userToUpdate
+	}
+
+	return userDB
 }
