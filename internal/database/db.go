@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"log"
+	"time"
 
 	"github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -39,6 +40,8 @@ func getCollection(collection string) *mongo.Collection {
 func VisitorCreate(v VisitorDB) (VisitorDB, error) {
 	result := VisitorDB{}
 	v.Visitor = uuid.NewString()
+	v.CreatedAt = time.Now()
+	v.UpdatedAt = time.Now()
 
 	_, err := collectionVisitors.InsertOne(context.TODO(), v)
 	if err != nil {
@@ -65,6 +68,8 @@ func VisitorUpdate(v VisitorDB, filter bson.D) (VisitorDB, error) {
 	}
 
 	updateVisitorData := VisitorDB{
+		CreatedAt: result.CreatedAt,
+		UpdatedAt: time.Now(),
 		Visitor: result.Visitor,
 		Urls: updateVisitorUrls(result.Urls, v.Urls[0]),
 		IP: v.IP,

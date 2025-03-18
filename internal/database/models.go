@@ -1,5 +1,7 @@
 package database
 
+import "time"
+
 type UtmDB struct {
 	UtmSource   string `bson:"utmSource"`
 	UtmMedium   string `bson:"utmMedium"`
@@ -23,6 +25,8 @@ type UserDB struct {
 }
 
 type VisitorDB struct {
+	CreatedAt time.Time `bson:"createdAt"`
+	UpdatedAt time.Time `bson:"updatedAt"`
 	Visitor   string  `bson:"visitor"`
 	Urls      []UrlDB `bson:"url"`
 	IP        string  `bson:"ip"`
