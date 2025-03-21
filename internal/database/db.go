@@ -67,6 +67,10 @@ func VisitorUpdate(v VisitorDB, filter bson.D) (VisitorDB, error) {
 		log.Fatal(err)
 	}
 
+	if v.Visitor != result.Visitor {
+		go deleteVisitorWithoutUser(v)
+	}
+
 	updateVisitorData := VisitorDB{
 		CreatedAt: result.CreatedAt,
 		UpdatedAt: time.Now(),
