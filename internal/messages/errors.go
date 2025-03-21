@@ -14,6 +14,7 @@ type db struct {
 	VisitorCreate string
 	VisitorID     string
 	VisitorUpdate string
+	VisitorDelete string
 }
 
 type visitor struct {
@@ -28,6 +29,7 @@ var Errors = errors{
 			VisitorCreate: "couldn't create visitor",
 			VisitorID:     "visitor id is not uuid",
 			VisitorUpdate: "couldn't update visitor",
+			VisitorDelete: "couldn't delete visitor",
 		},
 		Visitor: visitor{
 			ProcessVisitor: "couldn't process visitor",
