@@ -53,7 +53,6 @@ var vStatus = visitorStatus{
 
 func ProcessVisitor(r *http.Request) (processedVisitor, error) {
 	var err error
-	var filter bson.D
 
 	v := visitor{}
 	pVisitor := processedVisitor{
@@ -67,17 +66,7 @@ func ProcessVisitor(r *http.Request) (processedVisitor, error) {
 		return pVisitor, errors.New("check sent data")
 	}
 
-	if validateVisitorData(v, "visitor") {
-		filter = bson.D{{"visitor", v.Visitor}}
-	}
-
-	if validateVisitorData(v, "userID") {
-		filter = bson.D{{"userData.userID", v.UserData.UserID}}
-	}
-
-	if validateVisitorData(v, "userAgent") {
-		filter = bson.D{{"userAgent", v.UserAgent}, {"ip", v.IP}}
-	}
+	filter := getBsonFilter(v);
 
 	urlDB := database.UrlDB{
 		Url:      v.Url,
@@ -109,21 +98,21 @@ func ProcessVisitor(r *http.Request) (processedVisitor, error) {
 	return pVisitor, nil
 }
 
-func validateVisitorData(v visitor, visitorDataType string) bool {
-	if visitorDataType == "visitor" {
-		if v.Visitor != "" {
-			return true
-		}
+func getBsonFilter(v visitor) bson.D {
+	var filter bson.D
+
+	if v.UserData.UserID != "" {
+		filter = bson.D{{"userData.userID", v.UserData.UserID}}
+		return filter
 	}
-	if visitorDataType == "userID" {
-		if v.Visitor == "" && v.UserData.UserID != "" {
-			return true
-		}
+	if v.Visitor != "" {
+		filter = bson.D{{"visitor", v.Visitor}}
+		return filter
 	}
-	if visitorDataType == "userAgent" {
-		if v.Visitor == "" && v.UserData.UserID == "" && v.UserAgent != "" && v.IP != "" {
-			return true
-		}
+	if v.Visitor == "" && v.UserData.UserID == "" && v.UserAgent != "" && v.IP != "" {
+		filter = bson.D{{"userAgent", v.UserAgent}, {"ip", v.IP}}
+		return filter
 	}
-	return false
+
+	return filter
 }
