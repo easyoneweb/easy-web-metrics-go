@@ -86,10 +86,10 @@ Visitor will have generated UUID and a status new, if no credentials were found 
 ## How visitors are being referenced
 
 If not data was provided, new visitor data and ID will be generated. Server is looking for data in a few steps:
-- it looks for visitor ID
-- if there's visitor data by visitor ID, it updates it with provided json data and returns ID and status
-- if there's no visitor found by ID, app will look next for userData.bitrixID and update data is visitor was found
-- if there's no visitor found by userData.bitrixID, app will look next for userAgent && IP address and update data is visitor was found
+- it looks for userData.userID
+- if there's visitor data found by userData.userID, it updates it with provided json data and returns visitor ID and status (note: userData will be updated only if no previous userData was present)
+- if there's no visitor found by userData.userID, app will look next for visitor by visitor ID and update data if it was found
+- if there's no visitor found by visitor ID, app will look next for userAgent && IP address and update data if it was found
 - if there's no visitor found by userAgent && IP address, new visitor will be generated
 
 ## Additional information
@@ -102,23 +102,35 @@ There are currently no known issues.
 
 ## Release Notes
 
+### 0.3.0
+
+- Added createdAt and updatedAt fields to visitor in DB.
+- Search visitor by UserID first.
+- Delete visitor if founded visitor by UserID has different Visitor ID then was sent by request, and requested visitor ID has no UserData.UserID.
+
 ### 0.2.1
 
-Fixed issue when bson.D filter for mongodb query is nil.
+- Fixed issue when bson.D filter for mongodb query is nil.
 
 ### 0.2.0
 
-REST API /api/v1/visitor changed to /api/v1/metrics/visitor. User data now accepts userID instead of bitrixID. User data update only updates user info if there was no userID previously saved.
+- REST API /api/v1/visitor changed to /api/v1/metrics/visitor.
+- User data now accepts userID instead of bitrixID.
+- User data update only updates user info if there was no userID previously saved.
 
 ### 0.1.0
 
 Initial working version.
 
+### About testing
+
+Tests are using easywebmetricstest DB. Please, delete existing DB before running tests for pure results.
+
 ---
 
 ## For more information
 
-* [GitHub](https://github.com/ikirja/easy-ollama)
+* [GitHub](https://github.com/ikirja/easy-web-metrics-go)
 * [EasyOneWeb LLC](https://easyoneweb.ru)
 
 # Copyright
