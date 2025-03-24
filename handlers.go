@@ -37,6 +37,7 @@ func responseWithError(w http.ResponseWriter, code int, message string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(code)
 	w.Write(data)
 }
