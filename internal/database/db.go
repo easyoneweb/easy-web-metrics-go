@@ -74,6 +74,7 @@ func VisitorUpdate(v VisitorDB, filter bson.D) (VisitorDB, error) {
 	updateVisitorData := VisitorDB{
 		CreatedAt: result.CreatedAt,
 		UpdatedAt: time.Now(),
+		VisitDates: updateVisitorDates(result.VisitDates),
 		Visitor: result.Visitor,
 		Urls: updateVisitorUrls(result.Urls, v.Urls[0]),
 		IP: v.IP,
@@ -89,6 +90,33 @@ func VisitorUpdate(v VisitorDB, filter bson.D) (VisitorDB, error) {
 	}
 
 	return updateVisitorData, nil
+}
+
+func updateVisitorDates(visitDates []time.Time) []time.Time {
+	if len(visitDates) == 0 {
+		return []time.Time{time.Now()}
+	}
+
+	format := "2006-01-02"
+	today := time.Now().Format(format)
+	lastVisitDate := visitDates[len(visitDates) - 1].Format(format)
+	if today == lastVisitDate {
+		return visitDates
+	}
+
+	const maxVisitDates = 30
+	
+	updatedVisitDates := make([]time.Time, 0)
+	
+	for i := len(visitDates) - 1; i >= 0; i-- {
+		if len(updatedVisitDates) >= maxVisitDates - 1 {
+			break
+		}
+		updatedVisitDates = append([]time.Time{visitDates[i]}, updatedVisitDates...)
+	}
+
+	updatedVisitDates = append(updatedVisitDates, time.Now())
+	return updatedVisitDates
 }
 
 func updateVisitorUrls(urls []UrlDB, newUrl UrlDB) []UrlDB {

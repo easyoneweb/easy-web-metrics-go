@@ -15,7 +15,7 @@ type UrlDB struct {
 }
 
 type UserDB struct {
-	UserID   string `bson:"userID"`
+	UserID     string `bson:"userID"`
 	Login      string `bson:"login"`
 	Email      string `bson:"email"`
 	FirstName  string `bson:"firstName"`
@@ -25,11 +25,12 @@ type UserDB struct {
 }
 
 type VisitorDB struct {
-	CreatedAt time.Time `bson:"createdAt"`
-	UpdatedAt time.Time `bson:"updatedAt"`
-	Visitor   string  `bson:"visitor"`
-	Urls      []UrlDB `bson:"url"`
-	IP        string  `bson:"ip"`
-	UserAgent string  `bson:"userAgent"`
-	UserData  UserDB  `bson:"userData"`
+	CreatedAt  time.Time   `bson:"createdAt"`
+	UpdatedAt  time.Time   `bson:"updatedAt"`
+	VisitDates []time.Time `bson:"visitDates"`
+	Visitor    string      `bson:"visitor"`
+	Urls       []UrlDB     `bson:"url"`
+	IP         string      `bson:"ip"`
+	UserAgent  string      `bson:"userAgent"`
+	UserData   UserDB      `bson:"userData"`
 }
