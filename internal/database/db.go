@@ -72,14 +72,14 @@ func VisitorUpdate(v VisitorDB, filter bson.D) (VisitorDB, error) {
 	}
 
 	updateVisitorData := VisitorDB{
-		CreatedAt: result.CreatedAt,
-		UpdatedAt: time.Now(),
+		CreatedAt:  result.CreatedAt,
+		UpdatedAt:  time.Now(),
 		VisitDates: updateVisitorDates(result.VisitDates),
-		Visitor: result.Visitor,
-		Urls: updateVisitorUrls(result.Urls, v.Urls[0]),
-		IP: v.IP,
-		UserAgent: v.UserAgent,
-		UserData: updateVisitorUserData(result.UserData, v.UserData),
+		Visitor:    result.Visitor,
+		Urls:       updateVisitorUrls(result.Urls, v.Urls[0]),
+		IP:         v.IP,
+		UserAgent:  v.UserAgent,
+		UserData:   updateVisitorUserData(result.UserData, v.UserData),
 	}
 
 	update := bson.D{{"$set", updateVisitorData}}
@@ -92,6 +92,22 @@ func VisitorUpdate(v VisitorDB, filter bson.D) (VisitorDB, error) {
 	return updateVisitorData, nil
 }
 
+func GetVisitors() ([]VisitorDB, error) {
+	filter := bson.M{"updatedAt": bson.M{"$gte": time.Now().Add(-time.Hour * 720), "$lt": time.Now()}}
+
+	cursor, err := collectionVisitors.Find(context.TODO(), filter)
+	if err != nil {
+		return []VisitorDB{}, errors.New("couldn't execute collection find")
+	}
+
+	var results []VisitorDB
+	if err = cursor.All(context.TODO(), &results); err != nil {
+		return []VisitorDB{}, errors.New("couldn't do get visitors cursor all")
+	}
+
+	return results, nil
+}
+
 func updateVisitorDates(visitDates []time.Time) []time.Time {
 	if len(visitDates) == 0 {
 		return []time.Time{time.Now()}
@@ -99,17 +115,17 @@ func updateVisitorDates(visitDates []time.Time) []time.Time {
 
 	format := "2006-01-02"
 	today := time.Now().Format(format)
-	lastVisitDate := visitDates[len(visitDates) - 1].Format(format)
+	lastVisitDate := visitDates[len(visitDates)-1].Format(format)
 	if today == lastVisitDate {
 		return visitDates
 	}
 
 	const maxVisitDates = 30
-	
+
 	updatedVisitDates := make([]time.Time, 0)
-	
+
 	for i := len(visitDates) - 1; i >= 0; i-- {
-		if len(updatedVisitDates) >= maxVisitDates - 1 {
+		if len(updatedVisitDates) >= maxVisitDates-1 {
 			break
 		}
 		updatedVisitDates = append([]time.Time{visitDates[i]}, updatedVisitDates...)

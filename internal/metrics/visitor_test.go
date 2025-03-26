@@ -21,12 +21,18 @@ func TestProcessVisitor(t *testing.T) {
 	}
 
 	t.Run("Visitor create", func(t *testing.T) {
-		r := httptest.NewRequest("POST", "/api/v1/visitor", createBodyReader())
+		r := httptest.NewRequest("POST", "/api/v1/metrics/visitor", createBodyReader())
 		processVisitor(t, r)
 	})
 	t.Run("Visitor update", func(t *testing.T) {
-		r := httptest.NewRequest("POST", "/api/v1/visitor", createBodyReader())
+		r := httptest.NewRequest("POST", "/api/v1/metrics/visitor", createBodyReader())
 		processVisitor(t, r)
+	})
+	t.Run("Visitor get", func(t *testing.T) {
+		_, err := GetVisitors()
+		if err != nil {
+			t.Errorf("%v: %v", messages.Errors.Test.Visitor.GetVisitors, err)
+		}
 	})
 }
 

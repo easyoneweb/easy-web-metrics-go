@@ -13,7 +13,7 @@ func deleteVisitorWithoutUser(v VisitorDB) error {
 	if v.Visitor == "" {
 		return nil
 	}
-	
+
 	result := VisitorDB{}
 
 	err := collectionVisitors.FindOne(context.TODO(), bson.D{{"visitor", v.Visitor}}).Decode(&result)

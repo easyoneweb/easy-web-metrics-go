@@ -26,6 +26,15 @@ func handlerProcessVisitor(w http.ResponseWriter, r *http.Request) {
 	responseWithJson(w, 200, vr)
 }
 
+func handlerGetVisitors(w http.ResponseWriter, r *http.Request) {
+	v, err := metrics.GetVisitors()
+	if err != nil {
+		responseWithError(w, 400, "error getting visitors")
+		return
+	}
+	responseWithJson(w, 200, v)
+}
+
 func responseWithError(w http.ResponseWriter, code int, message string) {
 	data, err := json.Marshal(struct {
 		Error   bool   `json:"error"`

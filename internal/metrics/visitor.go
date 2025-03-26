@@ -17,7 +17,7 @@ type utm struct {
 }
 
 type user struct {
-	UserID   string `json:"userID"`
+	UserID     string `json:"userID"`
 	Login      string `json:"login"`
 	Email      string `json:"email"`
 	FirstName  string `json:"firstName"`
@@ -66,7 +66,7 @@ func ProcessVisitor(r *http.Request) (processedVisitor, error) {
 		return pVisitor, errors.New("check sent data")
 	}
 
-	filter := getBsonFilter(v);
+	filter := getBsonFilter(v)
 
 	urlDB := database.UrlDB{
 		Url:      v.Url,
@@ -96,6 +96,11 @@ func ProcessVisitor(r *http.Request) (processedVisitor, error) {
 	pVisitor.Visitor = createdVisitor.Visitor
 	pVisitor.Status = vStatus.New
 	return pVisitor, nil
+}
+
+func GetVisitors() ([]database.VisitorDB, error) {
+
+	return database.GetVisitors()
 }
 
 func getBsonFilter(v visitor) bson.D {

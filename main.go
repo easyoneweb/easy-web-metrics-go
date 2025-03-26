@@ -62,6 +62,10 @@ func main() {
 
 		r.Route("/metrics", func(r chi.Router) {
 			r.Post("/visitor", handlerProcessVisitor)
+
+			r.Route("/stats", func(r chi.Router) {
+				r.Get("/visitor", handlerGetVisitors)
+			})
 		})
 	})
 

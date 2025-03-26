@@ -20,6 +20,7 @@ type db struct {
 type visitor struct {
 	ProcessVisitor string
 	VisitorID      string
+	GetVisitors    string
 }
 
 var Errors = errors{
@@ -34,6 +35,7 @@ var Errors = errors{
 		Visitor: visitor{
 			ProcessVisitor: "couldn't process visitor",
 			VisitorID:      "visitor id is not uuid",
+			GetVisitors:    "couldn't get visitors",
 		},
 	},
 }

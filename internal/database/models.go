@@ -3,34 +3,34 @@ package database
 import "time"
 
 type UtmDB struct {
-	UtmSource   string `bson:"utmSource"`
-	UtmMedium   string `bson:"utmMedium"`
-	UtmCampaign string `bson:"utmCampaign"`
+	UtmSource   string `json:"utmSource" bson:"utmSource"`
+	UtmMedium   string `json:"utmMedium" bson:"utmMedium"`
+	UtmCampaign string `json:"utmCampaign" bson:"utmCampaign"`
 }
 
 type UrlDB struct {
-	Url      string `bson:"url"`
-	Utm      UtmDB  `bson:"utm"`
-	Referrer string `bson:"referrer"`
+	Url      string `json:"url" bson:"url"`
+	Utm      UtmDB  `json:"utm" bson:"utm"`
+	Referrer string `json:"referrer" bson:"referrer"`
 }
 
 type UserDB struct {
-	UserID     string `bson:"userID"`
-	Login      string `bson:"login"`
-	Email      string `bson:"email"`
-	FirstName  string `bson:"firstName"`
-	SecondName string `bson:"secondName"`
-	LastName   string `bson:"lastName"`
-	Phone      string `bson:"phone"`
+	UserID     string `json:"userID" bson:"userID"`
+	Login      string `json:"login" bson:"login"`
+	Email      string `json:"email" bson:"email"`
+	FirstName  string `json:"firstName" bson:"firstName"`
+	SecondName string `json:"secondName" bson:"secondName"`
+	LastName   string `json:"lastName" bson:"lastName"`
+	Phone      string `json:"phone" bson:"phone"`
 }
 
 type VisitorDB struct {
-	CreatedAt  time.Time   `bson:"createdAt"`
-	UpdatedAt  time.Time   `bson:"updatedAt"`
-	VisitDates []time.Time `bson:"visitDates"`
-	Visitor    string      `bson:"visitor"`
-	Urls       []UrlDB     `bson:"url"`
-	IP         string      `bson:"ip"`
-	UserAgent  string      `bson:"userAgent"`
-	UserData   UserDB      `bson:"userData"`
+	CreatedAt  time.Time   `json:"createdAt" bson:"createdAt"`
+	UpdatedAt  time.Time   `json:"updatedAt" bson:"updatedAt"`
+	VisitDates []time.Time `json:"visitDates" bson:"visitDates"`
+	Visitor    string      `json:"visitor" bson:"visitor"`
+	Urls       []UrlDB     `json:"url" bson:"url"`
+	IP         string      `json:"ip" bson:"ip"`
+	UserAgent  string      `json:"userAgent" bson:"userAgent"`
+	UserData   UserDB      `json:"userData" bson:"userData"`
 }

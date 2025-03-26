@@ -20,7 +20,7 @@ var testUrl = UrlDB{
 }
 
 var testUser = UserDB{
-	UserID:   "",
+	UserID:     "",
 	Login:      "",
 	Email:      "",
 	FirstName:  "",
@@ -72,7 +72,7 @@ func TestVisitor(t *testing.T) {
 	})
 	t.Run("Visitor Delete - Empty UserID", func(t *testing.T) {
 		testVisitor.UserData.UserID = ""
-		
+
 		visitor, err = VisitorCreate(testVisitor)
 		if err != nil {
 			t.Errorf("%v: %v", messages.Errors.Test.DB.VisitorCreate, err)
@@ -84,17 +84,17 @@ func TestVisitor(t *testing.T) {
 		}
 
 		testVisitor.Visitor = visitor.Visitor
-		
+
 		err := deleteVisitorWithoutUser(testVisitor)
 		if err != nil {
-				t.Errorf("%v: %v", messages.Errors.Test.DB.VisitorDelete, err)
+			t.Errorf("%v: %v", messages.Errors.Test.DB.VisitorDelete, err)
 		}
 	})
 	t.Run("Visitor Delete - Valid User Data", func(t *testing.T) {
 		testVisitor.UserData.UserID = "8"
 		err := deleteVisitorWithoutUser(testVisitor)
 		if err != nil {
-				t.Errorf("%v: %v", messages.Errors.Test.DB.VisitorDelete, err)
+			t.Errorf("%v: %v", messages.Errors.Test.DB.VisitorDelete, err)
 		}
 	})
 }
