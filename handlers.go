@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/ikirja/easy-web-metrics-go/internal/database"
 	"github.com/ikirja/easy-web-metrics-go/internal/metrics"
 )
 
@@ -27,12 +28,35 @@ func handlerProcessVisitor(w http.ResponseWriter, r *http.Request) {
 }
 
 func handlerGetVisitors(w http.ResponseWriter, r *http.Request) {
-	v, err := metrics.GetVisitors()
+	body := struct {
+		Limit int64 `json:"limit"`
+		Skip  int64 `json:"skip"`
+	}{}
+
+	err := json.NewDecoder(r.Body).Decode(&body)
+	if err != nil {
+		responseWithError(w, 400, "error parsing body")
+		return
+	}
+	if body.Limit == 0 || body.Limit > 5000 {
+		responseWithError(w, 400, "limit can't be 0 or more than 5000")
+		return
+	}
+
+	v, c, err := metrics.GetVisitors(body.Limit, body.Skip)
 	if err != nil {
 		responseWithError(w, 400, "error getting visitors")
 		return
 	}
-	responseWithJson(w, 200, v)
+
+	result := struct {
+		Count    int64                `json:"count"`
+		Visitors []database.VisitorDB `json:"visitors"`
+	}{
+		Count:    c,
+		Visitors: v,
+	}
+	responseWithJson(w, 200, result)
 }
 
 func responseWithError(w http.ResponseWriter, code int, message string) {

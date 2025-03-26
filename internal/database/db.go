@@ -92,20 +92,26 @@ func VisitorUpdate(v VisitorDB, filter bson.D) (VisitorDB, error) {
 	return updateVisitorData, nil
 }
 
-func GetVisitors() ([]VisitorDB, error) {
+func GetVisitors(limit int64, skip int64) ([]VisitorDB, int64, error) {
 	filter := bson.M{"updatedAt": bson.M{"$gte": time.Now().Add(-time.Hour * 720), "$lt": time.Now()}}
 
-	cursor, err := collectionVisitors.Find(context.TODO(), filter)
+	count, err := collectionVisitors.CountDocuments(context.TODO(), filter)
 	if err != nil {
-		return []VisitorDB{}, errors.New("couldn't execute collection find")
+		return []VisitorDB{}, 0, errors.New("couldn't execute collection count document")
+	}
+
+	opts := options.Find().SetLimit(limit).SetSkip(skip)
+	cursor, err := collectionVisitors.Find(context.TODO(), filter, opts)
+	if err != nil {
+		return []VisitorDB{}, 0, errors.New("couldn't execute collection find")
 	}
 
 	var results []VisitorDB
 	if err = cursor.All(context.TODO(), &results); err != nil {
-		return []VisitorDB{}, errors.New("couldn't do get visitors cursor all")
+		return []VisitorDB{}, 0, errors.New("couldn't do get visitors cursor all")
 	}
 
-	return results, nil
+	return results, count, nil
 }
 
 func updateVisitorDates(visitDates []time.Time) []time.Time {

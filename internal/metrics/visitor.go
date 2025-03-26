@@ -98,9 +98,8 @@ func ProcessVisitor(r *http.Request) (processedVisitor, error) {
 	return pVisitor, nil
 }
 
-func GetVisitors() ([]database.VisitorDB, error) {
-
-	return database.GetVisitors()
+func GetVisitors(limit int64, skip int64) ([]database.VisitorDB, int64, error) {
+	return database.GetVisitors(limit, skip)
 }
 
 func getBsonFilter(v visitor) bson.D {

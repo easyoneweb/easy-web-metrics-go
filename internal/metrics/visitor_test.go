@@ -29,7 +29,7 @@ func TestProcessVisitor(t *testing.T) {
 		processVisitor(t, r)
 	})
 	t.Run("Visitor get", func(t *testing.T) {
-		_, err := GetVisitors()
+		_, _, err := GetVisitors(10, 0)
 		if err != nil {
 			t.Errorf("%v: %v", messages.Errors.Test.Visitor.GetVisitors, err)
 		}
