@@ -30,11 +30,28 @@ func Connect(dbName string) error {
 
 	db = client.Database(dbName)
 	collectionVisitors = getCollection(collectionVisitorsName)
+	createVisitorsIndexes(collectionVisitors)
 	return nil
 }
 
 func getCollection(collection string) *mongo.Collection {
 	return db.Collection(collection)
+}
+
+func createVisitorsIndexes(collectionVisitors *mongo.Collection) {
+	indexModels := []mongo.IndexModel{
+		{Keys: bson.D{{Key: "userData.userID", Value: -1}}},
+		{Keys: bson.D{{Key: "visitor", Value: 1}}},
+		{Keys: bson.D{{Key: "ip", Value: 1}}},
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+	defer cancel()
+
+	_, err := collectionVisitors.Indexes().CreateMany(ctx, indexModels)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func VisitorCreate(v VisitorDB) (VisitorDB, error) {
