@@ -37,55 +37,107 @@ After deployment of this app on some server, you should have access to it's REST
 REST API host: your-domain.com/api/v1
 Api-Key to access routes should be provided in headers["api-key"]
 
-GET /ping
+### GET /ping
 
 Response example:
+
 ```json
 {
   "message": "ping"
 }
 ```
 
-POST /visitor
+### POST /metrics/visitor
 
 Body example:
+
 ```json
 {
-    "visitor": "",
-    "url": "some-domain.com/page/id",
-    "utm": {
-        "utmSource": "",
-        "utmMedium": "",
-        "utmCampaign": ""
-    },
-    "referrer": "",
-    "ip": "",
-    "userAgent": "",
-    "userData": {
-        "userID": "",
-        "login": "",
-        "email": "",
-        "firstName": "",
-        "secondName": "",
-        "lastName": "",
-        "phone": ""
-    }
+  "visitor": "",
+  "url": "some-domain.com/page/id",
+  "utm": {
+    "utmSource": "",
+    "utmMedium": "",
+    "utmCampaign": ""
+  },
+  "referrer": "",
+  "ip": "",
+  "userAgent": "",
+  "userData": {
+    "userID": "",
+    "login": "",
+    "email": "",
+    "firstName": "",
+    "secondName": "",
+    "lastName": "",
+    "phone": ""
+  }
 }
 ```
+
 There are no required fields. But you should at least send empty json {}.
 
 Response example:
+
 ```json
 {
-    "visitor": "e69a379a-a6e8-4686-b686-3b94e59545d3",
-    "status": "new"
+  "visitor": "e69a379a-a6e8-4686-b686-3b94e59545d3",
+  "status": "new"
 }
 ```
+
 Visitor will have generated UUID and a status new, if no credentials were found or empty json {} has been sent. You should keep track of visitor ID to update data.
+
+### POST /metrics/stats/visitor
+
+Body example:
+
+```json
+{
+  "limit": 5000,
+  "skip": 0
+}
+```
+
+Response example:
+
+```json
+[
+  {
+    "createdAt": "2025-03-20T12:15:52.924Z",
+    "updatedAt": "2025-03-26T16:46:01.622Z",
+    "visitDates": ["2025-03-26T16:46:01.622Z"],
+    "visitor": "15e04756-1daf-4b5b-a30b-80aad90ab050",
+    "url": [
+      {
+        "url": "",
+        "utm": {
+          "utmSource": "",
+          "utmMedium": "",
+          "utmCampaign": ""
+        },
+        "referrer": "https://google.com"
+      }
+    ],
+    "ip": "127.0.0.5",
+    "userAgent": "test",
+    "userData": {
+      "userID": "2",
+      "login": "",
+      "email": "",
+      "firstName": "",
+      "secondName": "",
+      "lastName": "",
+      "phone": ""
+    }
+  }
+]
+```
 
 ## How visitors are being referenced
 
 If not data was provided, new visitor data and ID will be generated. Server is looking for data in a few steps:
+
 - it looks for userData.userID
 - if there's visitor data found by userData.userID, it updates it with provided json data and returns visitor ID and status (note: userData will be updated only if no previous userData was present)
 - if there's no visitor found by userData.userID, app will look next for visitor by visitor ID and update data if it was found
@@ -101,6 +153,13 @@ Easy-Web-Metrics-Go is written in Go language (Go 1.24.1), uses: mongodb as DB, 
 There are currently no known issues.
 
 ## Release Notes
+
+### 0.4.0
+
+- Added visitDates fields to visitor in DB to store last 30 unique dates of visits.
+- Added REST API GET /api/v1/metrics/stats/visitor that returns visitors for last 30 days.
+- Added JSON schema for database models.
+- Added MongoDB Collection Visitors indexes on UserData.UserID, Visitor, IP.
 
 ### 0.3.0
 
@@ -130,8 +189,8 @@ Tests are using easywebmetricstest DB. Please, delete existing DB before running
 
 ## For more information
 
-* [GitHub](https://github.com/ikirja/easy-web-metrics-go)
-* [EasyOneWeb LLC](https://easyoneweb.ru)
+- [GitHub](https://github.com/ikirja/easy-web-metrics-go)
+- [EasyOneWeb LLC](https://easyoneweb.ru)
 
 # Copyright
 
