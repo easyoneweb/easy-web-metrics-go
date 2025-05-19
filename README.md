@@ -154,33 +154,7 @@ There are currently no known issues.
 
 ## Release Notes
 
-### 0.4.0
-
-- Added visitDates fields to visitor in DB to store last 30 unique dates of visits.
-- Added REST API GET /api/v1/metrics/stats/visitor that returns visitors for last 30 days.
-- Added JSON schema for database models.
-- Added MongoDB Collection Visitors indexes on UserData.UserID, Visitor, IP.
-- Added Processed Visitor createdAt field, includes field in REST API response.
-
-### 0.3.0
-
-- Added createdAt and updatedAt fields to visitor in DB.
-- Search visitor by UserID first.
-- Delete visitor if founded visitor by UserID has different Visitor ID then was sent by request, and requested visitor ID has no UserData.UserID.
-
-### 0.2.1
-
-- Fixed issue when bson.D filter for mongodb query is nil.
-
-### 0.2.0
-
-- REST API /api/v1/visitor changed to /api/v1/metrics/visitor.
-- User data now accepts userID instead of bitrixID.
-- User data update only updates user info if there was no userID previously saved.
-
-### 0.1.0
-
-Initial working version.
+See CHANGELOG.md.
 
 ### About testing
 

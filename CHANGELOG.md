@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - visitDates fields to visitor in DB to store last 30 unique dates of visits.
 - New REST API GET /api/v1/metrics/stats/visitor that returns visitors for last 30 days.
 - JSON schema for database models.
-- MongoDB Collection Visitors indexes on UserData.UserID, Visitor, IP.
+- MongoDB Collection Visitors indexes on UserData.UserID, Visitor, IP and UpdatedAt fields.
 - Processed Visitor createdAt field, includes field in REST API response.
 
 ## [0.3.0] - 2025-03-14
