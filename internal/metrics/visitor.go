@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+	"time"
 
 	"github.com/ikirja/easy-web-metrics-go/internal/database"
 
@@ -37,8 +38,9 @@ type visitor struct {
 }
 
 type processedVisitor struct {
-	Visitor string `json:"visitor"`
-	Status  string `json:"status"`
+	CreatedAt time.Time `json:"createdAt"`
+	Visitor   string    `json:"visitor"`
+	Status    string    `json:"status"`
 }
 
 type visitorStatus struct {
@@ -83,6 +85,7 @@ func ProcessVisitor(r *http.Request) (processedVisitor, error) {
 
 	updatedVisitor, _ := database.VisitorUpdate(visitorDB, filter)
 	if updatedVisitor.Visitor != "" {
+		pVisitor.CreatedAt = updatedVisitor.CreatedAt
 		pVisitor.Visitor = updatedVisitor.Visitor
 		pVisitor.Status = vStatus.Updated
 		return pVisitor, nil
@@ -93,6 +96,7 @@ func ProcessVisitor(r *http.Request) (processedVisitor, error) {
 		return pVisitor, err
 	}
 
+	pVisitor.CreatedAt = createdVisitor.CreatedAt
 	pVisitor.Visitor = createdVisitor.Visitor
 	pVisitor.Status = vStatus.New
 	return pVisitor, nil
