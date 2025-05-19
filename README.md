@@ -160,6 +160,7 @@ There are currently no known issues.
 - Added REST API GET /api/v1/metrics/stats/visitor that returns visitors for last 30 days.
 - Added JSON schema for database models.
 - Added MongoDB Collection Visitors indexes on UserData.UserID, Visitor, IP.
+- Added Processed Visitor createdAt field, includes field in REST API response.
 
 ### 0.3.0
 
