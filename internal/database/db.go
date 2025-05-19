@@ -40,6 +40,7 @@ func getCollection(collection string) *mongo.Collection {
 
 func createVisitorsIndexes(collectionVisitors *mongo.Collection) {
 	indexModels := []mongo.IndexModel{
+		{Keys: bson.D{{Key: "updatedAt", Value: -1}}},
 		{Keys: bson.D{{Key: "userData.userID", Value: -1}}},
 		{Keys: bson.D{{Key: "visitor", Value: 1}}},
 		{Keys: bson.D{{Key: "ip", Value: 1}}},
@@ -109,26 +110,21 @@ func VisitorUpdate(v VisitorDB, filter bson.D) (VisitorDB, error) {
 	return updateVisitorData, nil
 }
 
-func GetVisitors(limit int64, skip int64) ([]VisitorDB, int64, error) {
+func GetVisitors(limit int64, skip int64) ([]VisitorDB, error) {
 	filter := bson.M{"updatedAt": bson.M{"$gte": time.Now().Add(-time.Hour * 720), "$lt": time.Now()}}
-
-	count, err := collectionVisitors.CountDocuments(context.TODO(), filter)
-	if err != nil {
-		return []VisitorDB{}, 0, errors.New("couldn't execute collection count document")
-	}
 
 	opts := options.Find().SetLimit(limit).SetSkip(skip)
 	cursor, err := collectionVisitors.Find(context.TODO(), filter, opts)
 	if err != nil {
-		return []VisitorDB{}, 0, errors.New("couldn't execute collection find")
+		return []VisitorDB{}, errors.New("couldn't execute collection find")
 	}
 
 	var results []VisitorDB
 	if err = cursor.All(context.TODO(), &results); err != nil {
-		return []VisitorDB{}, 0, errors.New("couldn't do get visitors cursor all")
+		return []VisitorDB{}, errors.New("couldn't do get visitors cursor all")
 	}
 
-	return results, count, nil
+	return results, nil
 }
 
 func updateVisitorDates(visitDates []time.Time) []time.Time {

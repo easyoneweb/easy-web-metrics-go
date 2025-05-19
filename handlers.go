@@ -43,17 +43,15 @@ func handlerGetVisitors(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	v, c, err := metrics.GetVisitors(body.Limit, body.Skip)
+	v, err := metrics.GetVisitors(body.Limit, body.Skip)
 	if err != nil {
 		responseWithError(w, 400, "error getting visitors")
 		return
 	}
 
 	result := struct {
-		Count    int64                `json:"count"`
 		Visitors []database.VisitorDB `json:"visitors"`
 	}{
-		Count:    c,
 		Visitors: v,
 	}
 	responseWithJson(w, 200, result)

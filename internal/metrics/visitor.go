@@ -102,7 +102,7 @@ func ProcessVisitor(r *http.Request) (processedVisitor, error) {
 	return pVisitor, nil
 }
 
-func GetVisitors(limit int64, skip int64) ([]database.VisitorDB, int64, error) {
+func GetVisitors(limit int64, skip int64) ([]database.VisitorDB, error) {
 	return database.GetVisitors(limit, skip)
 }
 
