@@ -81,6 +81,7 @@ Response example:
 
 ```json
 {
+  "createdAt": "2025-03-21T23:09:39.44Z",
   "visitor": "e69a379a-a6e8-4686-b686-3b94e59545d3",
   "status": "new"
 }
